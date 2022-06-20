@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import { Card, CardContent, CardHeader, Grid } from '@mui/material';
 
 import { Layout } from '../components/layouts';
+import { EntryList } from '../components/ui';
 
 const HomePage: NextPage = () => {
   return (
@@ -12,7 +13,9 @@ const HomePage: NextPage = () => {
             height: 'calc(100vh - 100px)'
           }}>
             <CardHeader title='Pendientes' />
-            <CardContent></CardContent>
+            <CardContent>
+              <EntryList />
+            </CardContent>
           </Card>
         </Grid>
 
@@ -21,6 +24,9 @@ const HomePage: NextPage = () => {
             height: 'calc(100vh - 100px)'
           }}>
             <CardHeader title='En progreso' />
+            <CardContent>
+              <EntryList />
+            </CardContent>
           </Card>
         </Grid>
 
@@ -29,6 +35,9 @@ const HomePage: NextPage = () => {
             height: 'calc(100vh - 100px)'
           }}>
             <CardHeader title='Completados' />
+            <CardContent>
+              <EntryList />
+            </CardContent>
           </Card>
         </Grid>
       </Grid>
