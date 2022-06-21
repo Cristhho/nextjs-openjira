@@ -1,26 +1,36 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useContext } from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
+import { EntriesContext } from '../../context/entries';
+import { UIContext } from '../../context/ui';
+
 export const NewEntry = () => {
-  const [isAdding, setIsAdding] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
   const [touched, setTouched] = useState<boolean>(false);
+  const { addEntry } = useContext(EntriesContext);
+  const { isAddingEntry, setIsAddingEntry } = useContext(UIContext);
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
   const onCancelHandler = () => {
-    setIsAdding(false);
+    setIsAddingEntry(false);
     setInputValue('');
     setTouched(false);
   };
 
   const onSave = () => {
-    if (inputValue.length  === 0) return;
+    if (inputValue.length  === 0) {
+      setTouched(true);
+      return;
+    }
+
+    addEntry(inputValue);
+    onCancelHandler();
   }
 
   return (
@@ -29,7 +39,7 @@ export const NewEntry = () => {
       paddingX: 1
     }}>
       {
-        isAdding ? (
+        isAddingEntry ? (
           <>
             <TextField
               fullWidth
@@ -67,7 +77,7 @@ export const NewEntry = () => {
             startIcon={<AddCircleOutlineOutlinedIcon />}
             fullWidth
             variant='outlined'
-            onClick={() => setIsAdding(true)}
+            onClick={() => setIsAddingEntry(true)}
           >
             Agregar tarea
           </Button>

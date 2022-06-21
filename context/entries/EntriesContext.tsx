@@ -4,6 +4,7 @@ import { Entry } from '../../interfaces';
 
 export interface EntriesContextProps {
   entries: Entry[];
+  addEntry: (description: string) => void;
 }
 
 export const EntriesContext = createContext({} as EntriesContextProps);
