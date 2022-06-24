@@ -5,7 +5,7 @@ const mongoConnection = {
 }
 
 export const connect = async () => {
-  if (mongoConnection.isConnected) {
+  if (mongoConnection.isConnected !== 0) {
     return;
   }
 
