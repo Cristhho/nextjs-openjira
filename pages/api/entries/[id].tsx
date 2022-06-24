@@ -17,6 +17,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   switch (req.method) {
     case 'PUT':
       return updateEntry(req, res);
+    case 'GET':
+      return getEntry(req.query.id as string, res);
   
     default:
       return res.status(400).json({ message: 'Metodo no permitido' });
@@ -47,5 +49,17 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     return res.status(400).json({ message: error.errors.status.message });
   }
 
+}
+
+const getEntry = async (id: string, res: NextApiResponse<Data>) => {
+  await db.connect();
+  const entry = await Entry.findById(id);
+  await db.disconnect();
+
+  if (!entry) {
+    return res.status(400).json({ message: 'Entrada no existe' });
+  }
+
+  return res.status(200).json(entry);
 }
 
