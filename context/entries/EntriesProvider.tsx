@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren, useEffect, useReducer } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 import { EntriesContext } from './EntriesContext';
 import { entriesReducer } from './entriesReducer';
@@ -17,15 +16,10 @@ const  ENTRIES_INITIAL_STATE: EntriesState = {
 export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(entriesReducer, ENTRIES_INITIAL_STATE);
 
-  const addEntry = (description: string) => {
-    const newEntry: Entry = {
-      _id: uuidv4(),
-      description,
-      createdAt: Date.now(),
-      status: 'pending'
-    }
+  const addEntry = async (description: string) => {
+    const { data } = await entriesApi.post<Entry>('/entries', { description });
 
-    dispatch({ type: 'Entry - Add Entry', payload: newEntry });
+    dispatch({ type: 'Entry - Add Entry', payload: data });
   };
 
   const updateEntry = (entry: Entry) => {
@@ -38,7 +32,6 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   useEffect(() => {
-    console.log('entries()');
     refreshEntries();
   }, []);
   
