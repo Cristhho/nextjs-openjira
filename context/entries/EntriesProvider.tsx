@@ -28,14 +28,15 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
     try {
       const { data } = await entriesApi.put<Entry>(`/entries/${_id}`, { description, status });
       dispatch({ type: 'Entry - Update', payload: data });
-      enqueueSnackbar('Entrada actualizada', {
-        variant: 'success',
-        autoHideDuration: 1500,
-        anchorOrigin: {
-          vertical: 'top',
-          horizontal: 'right'
-        }
-      });
+      if (showSnackbar)
+        enqueueSnackbar('Entrada actualizada', {
+          variant: 'success',
+          autoHideDuration: 1500,
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right'
+          }
+        });
     } catch (error) {
       console.error(error);
     }
